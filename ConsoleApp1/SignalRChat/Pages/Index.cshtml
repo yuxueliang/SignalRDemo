@@ -1,0 +1,46 @@
+﻿@page
+@model SignalRChat.Pages.IndexModel
+@{
+    Layout = null;
+}
+
+<div class="container">
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="col-6">&nbsp;</div>
+        <div class="col-6">
+            User..........<input type="text" id="userInput" />
+            <br />
+            Message...<input type="text" id="messageInput" />
+            <input type="button" id="sendButton" value="Send Message" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">&nbsp;</div>
+        <div class="col-6">
+            <ul id="messagesList"></ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            @Model.Token
+        </div>
+    </div>
+
+    <div>
+        <input type="button" id="sendButton1" value="Send Message" />
+    </div>
+</div>
+<script src="~/lib/aspnet-signalr/signalr.js"></script>
+<script src="~/lib/msgpack5/msgpack5.js"></script>
+<script src="~/lib/signalr-protocol-msgpack/dist/browser/signalr-protocol-msgpack.js"></script>
+
+<script>
+    var token = '@Model.Token';
+</script>
+<script src="~/js/chat.js"></script>
