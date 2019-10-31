@@ -27,7 +27,8 @@ namespace SignalRChat.Hubs
     [Authorize]
     public class ChatHub : Hub
     {
-       
+      
+
         public async Task SendMessageToUser(string user, string message)
         {
             await Clients.All.SendAsync("ReceiveMessage", user, message);
@@ -39,13 +40,29 @@ namespace SignalRChat.Hubs
             return user + ":" + message;
         }
 
+        /// <summary>
+        /// 给某一个组发消息
+        /// </summary>
+        /// <param name="groupName"></param>
+        /// <returns></returns>
+        public async Task SendToUserMessage(string groupName,string message)
+        {
+            await Clients.Group(groupName).SendAsync("Send", $"{Context.ConnectionId} has joined the group {groupName}.{message}");
 
+        }
+
+
+        /// <summary>
+        /// 先添加到组
+        /// </summary>
+        /// <param name="groupName"></param>
+        /// <returns></returns>
         public async Task AddToGroup(string groupName)
         {
-            await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
-
+            await Groups.AddToGroupAsync(Context.ConnectionId, groupName);//groupName 可以作为用户Id，每个用户Id作为一个分组，这样给每组发消息就等于给某个用户发消息
             await Clients.Group(groupName).SendAsync("Send", $"{Context.ConnectionId} has joined the group {groupName}.");
         }
+
 
         public async Task RemoveFromGroup(string groupName)
         {

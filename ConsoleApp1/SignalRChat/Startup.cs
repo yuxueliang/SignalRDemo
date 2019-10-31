@@ -108,8 +108,9 @@ namespace SignalRChat
 
             services.AddSignalR(hubOptions =>
             {
+
                 hubOptions.EnableDetailedErrors = true;//客户端能够获取到错误信息，默认值为 false，因为这些异常消息可能包含敏感信息。
-                hubOptions.KeepAliveInterval = TimeSpan.FromMinutes(1);//一分钟没有发送消息，服务器会ping消息，保持打开状态
+                hubOptions.KeepAliveInterval = TimeSpan.FromSeconds(1);//一分钟没有发送消息，服务器会ping消息，保持打开状态
             })
                 .AddMessagePackProtocol()//添加 MessagePack 可支持 JSON 和 MessagePack 客户端。
                 .AddStackExchangeRedis("192.168.189.128:6379");//使用redis发布订阅的特性，客户端发送消息到redis 底板，redis将消息发送给服务端，反之也一样，redis底板知道所有的客户端连接和服务器

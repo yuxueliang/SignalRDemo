@@ -48,6 +48,39 @@ document.getElementById("sendButton1").addEventListener("click", function (event
     event.preventDefault();
 });
 
+document.getElementById("addGroup").addEventListener("click", function (event) {
+    var user = document.getElementById("userInput").value;
+    var message = document.getElementById("messageInput").value;
+    connection.invoke("AddToGroup", user).catch(function (err) {
+            return console.error(err.toString());//如果调用集线器中的方法出现异常，这里能够抓取到
+        })
+        .then(result => {
+            console.log(result);//得到服务器端返回的结果
+        });
+    event.preventDefault();
+});
+
+connection.on("Send", function (message) {
+    var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    var encodedMsg =  msg;
+    var li = document.createElement("li");
+    li.textContent = encodedMsg;
+    document.getElementById("messagesList").appendChild(li);
+});
+document.getElementById("groupSendMessage").addEventListener("click", function (event) {
+    var user = document.getElementById("userInput").value;
+    var message = document.getElementById("messageInput").value;
+    connection.invoke("SendToUserMessage", user, message).catch(function (err) {
+            return console.error(err.toString());//如果调用集线器中的方法出现异常，这里能够抓取到
+        })
+        .then(result => {
+            console.log(result);//得到服务器端返回的结果
+        });
+    event.preventDefault();
+});
+
+
+
 //connection.onreconnecting((error) => {
 //    console.assert(connection.state === signalR.HubConnectionState.Reconnecting);
 
